@@ -6,4 +6,5 @@
 .idea/tasks.xml
 
 # IntelliJ
+.idea
 out/
