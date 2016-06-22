@@ -30,8 +30,8 @@ object Pe463 {
       val (q2, r2) = divMod(r1, d2)
 
       val d2q1 = M.multiply(d2, q1)
-      val sum2 = 2 * (d2q1 + (if (q2 == 1) r2 else (if (q2 > 1) d2 else 0)))
-      val sum1 = 1 * (d2q1 + (if (q2 == 2) r2 else (if (q2 > 2) d2 else 0)))
+      val sum2 = 2 * (d2q1 + (if (q2 == 1) r2 else if (q2 > 1) d2 else 0))
+      val sum1 = 1 * (d2q1 + (if (q2 == 2) r2 else if (q2 > 2) d2 else 0))
       val sum3 = 3 * (d2q1 + (if (q2 == 3) r2 else 0))
 
       f(rest, p2 / 4, d2*4, acc + M.multiply(p2, sum2 + sum1 + sum3))

@@ -1,5 +1,7 @@
 package pe
 
+import util.Utils.run
+
 object Pe506 {
   val L = 100000000000000L
   val Q = L / 15
@@ -15,13 +17,20 @@ object Pe506 {
   val R1 = solveEq(T - 1)
   val R2 = solveEq(sq(T - 1))
 
+  def main(args: Array[String]) = run(()=>solve)
+
+  def solve: Long = {
+    val r = (f1 + f2 + f3 + f4) % M
+    if (r < 0) r + M else r
+  }
+
   def mult(a: Long, b: Long): Long = a * b % M
   def sq(a:Long): Long = mult(a, a)
   def pow(r: Long, e: Long): Long = e match {
     case 0 => 1
     case _ => mult(sq(pow(r, e / 2)), if (e % 2 == 0) 1 else r)
   }
-  def sumToR(a: Array[Int]): Long = (0 to R).map(a(_)).sum
+  def sumToR(a: Seq[Int]): Long = (0 to R).map(a(_)).sum
 
   def solveEq(x: Long): Long = {
     def f(a: Long, b: Long, c0: Long, c1: Long): Long = {
@@ -37,13 +46,4 @@ object Pe506 {
 
   def f3: Long = mult(pow(T, Q),          sumToR(As))
   def f4: Long = mult(mult(pow(T, Q) - 1, sumToR(Bs)), R1)
-
-  def solve: Long = {
-    val r = (f1 + f2 + f3 + f4) % M
-    if (r < 0) r + M else r
-  }
-  def main(args: Array[String]) {
-    val start = System.currentTimeMillis()
-    printf("Ans:%d (%dms)", solve, System.currentTimeMillis() - start)
-  }
 }

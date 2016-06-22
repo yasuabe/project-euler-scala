@@ -7,8 +7,8 @@ object Pe435 {
   val M = BigInt(1307674368000L)
   val ZERO = BigInt(0)
   val ONE  = BigInt(1)
-  val U = Array(ONE, ONE,  ONE,  ZERO)
-  val E = Array(ONE, ZERO, ZERO, ONE)
+  val U = Seq(ONE, ONE,  ONE,  ZERO)
+  val E = Seq(ONE, ZERO, ZERO, ONE)
 
   def main(args: Array[String]) = run(()=>solve)
 
@@ -25,10 +25,10 @@ object Pe435 {
       acc + num % m / den
     }) % M
   }
-  def multiply(a: Array[BigInt], b: Array[BigInt], m: BigInt): Array[BigInt] = {
+  def multiply(a: Seq[BigInt], b: Seq[BigInt], m: BigInt): Seq[BigInt] = {
     def multiply(c1: Int, r1: Int, c2: Int, r2: Int): BigInt =
        (a(c1) * b(r1) + a(c2) * b(r2)) % m
-    Array (
+    Seq (
       multiply(0, 0, 1, 2), multiply(0, 1, 1, 3),
       multiply(2, 0, 3, 2), multiply(2, 1, 3, 3))
   }
@@ -36,7 +36,7 @@ object Pe435 {
     val fibs = pow(U, n, m)
     (fibs(1), fibs(0))
   }
-  def pow(a: Array[BigInt], n: Long, m: BigInt) : Array[BigInt] = n match {
+  def pow(a: Seq[BigInt], n: Long, m: BigInt) : Seq[BigInt] = n match {
     case 0 => E
     case 1 => a
     case _ =>

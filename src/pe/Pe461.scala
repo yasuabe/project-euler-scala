@@ -22,7 +22,7 @@ object Pe461 {
 
   def initFs() = (0 to L).map(i => math.exp(i / N.toDouble) - 1).toArray
 
-  def initSums(fs: Array[Double]): Array[Double] = {
+  def initSums(fs: Seq[Double]): Seq[Double] = {
     val result:Array[Double] = new Array[Double](L * (L - 1) / 2)
     def f(i: Int, j: Int, k: Int): Int = if (j < i) {
       result(k) = fs(i) + fs(j)
@@ -33,7 +33,7 @@ object Pe461 {
     result
   }
 
-  def fromBothEnds(arr: Array[Double], criteria: Double): (Int, Int) = {
+  def fromBothEnds(arr: Seq[Double], criteria: Double): (Int, Int) = {
     def f(curL: Int, curU: Int, resL: Int, resU: Int, diff: Double): (Int, Int) = if (curL < curU) {
       val diffCand = math.abs(criteria - (arr(curL) + arr(curU)))
       val (diff2, resL2, resU2) = if (diffCand < diff) (diffCand, curL, curU)
@@ -42,10 +42,10 @@ object Pe461 {
       else if (criteria > arr(curL) + arr(curU)) f(curL + 1, curU, resL2, resU2, diff2)
       else (resL2, resU2)
     } else (resL, resU)
-    return f(0, lowerBound(arr, criteria), 0, 0, Double.MaxValue)
+    f(0, lowerBound(arr, criteria), 0, 0, Double.MaxValue)
   }
 
-  def lowerBound(arr: Array[Double], value: Double): Int = {
+  def lowerBound(arr: Seq[Double], value: Double): Int = {
     def f(low: Int, high: Int): Int = if (low < high) {
       val mid = (low + high) / 2
       if (arr(mid) <= value) f(mid + 1, high)
