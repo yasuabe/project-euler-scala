@@ -8,12 +8,12 @@ object Pe001 {
     val l = (limit - 1) / n
     (1 + l) * l / 2 * n
   }
-  def solve: Reader[Long, Long] = {
+  def calc: Reader[Long, Long] = {
     for {
       m3  <- sumOfMultiples(3)
       m5  <- sumOfMultiples(5)
       m15 <- sumOfMultiples(15)
     } yield m3 + m5 - m15
   }
-  def main(args: Array[String]) = run(solve.run(1000))
+  def main(args: Array[String]) = run(calc.run(1000))
 }
