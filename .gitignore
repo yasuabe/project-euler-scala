@@ -1,9 +1,33 @@
-## File-based project format:
+*.class
+*.log
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+# idea
+.idea/
+.idea_modules/
+*.ipr
 *.iws
+*.iml
 
-# User-specific stuff:
-.idea/tasks.xml
+# jenv
+.java-version
 
-# IntelliJ
-.idea
-out/
+# vagrant
+.vagrant
+Vagrantfile.local
+project/
+untitled/
