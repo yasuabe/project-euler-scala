@@ -1,7 +1,5 @@
 package pe
 
-import util.Utils._
-
 object Pe002 {
   def solve(a: Int, b: Int, sum: Long): Long =
     if (b >= 4000000) sum

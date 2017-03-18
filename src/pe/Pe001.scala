@@ -1,7 +1,6 @@
 package pe
 
 import cats.data.Reader
-import util.Utils._
 
 object Pe001 {
   def sumOfMultiples(n: Int): Reader[Long, Long] = Reader { (limit: Long) =>
