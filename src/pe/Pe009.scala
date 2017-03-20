@@ -29,5 +29,4 @@ object Pe009 {
     case _ => n
   }
   def main(args: Array[String]) = run(solve(1000))
-
 }
