@@ -1,7 +1,7 @@
 package pe
 
 object Pe018 {
-  val data = Seq(
+  val data = List(
     "75",
     "95 64",
     "17 47 82",
@@ -20,9 +20,11 @@ object Pe018 {
 
   def shrink(ns: List[Int]): List[Int] = ns.zip(ns.tail).map(t => Math.max(t._1, t._2))
   def toInt(s: String): Int = (if (s.charAt(0) == '0') s.substring(1) else s).toInt
-  def solve = {
-    val rh :: rt = data.map(_.split(' ').map(toInt).toList).toList.reverse
+  def solve(lines: List[String]): Int = {
+    val rh :: rt = lines.map(_.split(' ').map(toInt).toList).toList.reverse
     rt.foldLeft(rh)((acc, e) => shrink(acc).zip(e).map(t => t._1 + t._2)).head
   }
+  def solve: Int = solve(data)
+
   def main(args: Array[String]): Unit = run(solve)
 }
