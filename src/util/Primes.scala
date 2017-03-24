@@ -59,4 +59,17 @@ object Primes {
   def primes(n: Int = 6): Stream[Long] = wheel(n) match {
     case (p #:: ps, ns) => sieve(ps.reverse.append(spin(p, ns)), PNil)
   }
+
+  def primeFactors(n: Long, primes: => Stream[Long] = Primes.primes()): List[(Long, Int)] = {
+    def go(n: Long, ps: Stream[Long], result: List[(Long, Int)]): List[(Long, Int)] =
+      if (n == 1) result
+      else ps match { case ph #:: pt =>
+        if (n % ph == 0) result match {
+          case (p, c)  :: rt if p == ph => go(n / ph, ps, (ph, c + 1) :: rt)
+          case _ => go(n / ph, ps, (ph, 1) :: result)
+        } else if (n < ph * ph) (n, 1) :: result
+        else go(n, pt, result)
+      }
+    go(n, primes, Nil)
+  }
 }
