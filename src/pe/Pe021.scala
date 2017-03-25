@@ -1,23 +1,15 @@
 package pe
 
 import util.Primes._
+import util.UseFactors
 
-object Pe021 extends UseFraction {
+object Pe021 extends UseFraction with UseFactors {
   val primes1000 = primes().takeWhile(_ < 1000)
-
-  def factorSum(primeFactors: List[(Long, Int)]): Long = {
-    val ls = primeFactors.map{
-      case (p, e) => frac(pow(p, e + 1) - 1, p - 1)
-    }.foldLeft((1L, 1L))((acc, e) => multiply(acc, e))
-    ls._1
-  }
-
-  def properDivisorSum(n: Long): Long = factorSum(primeFactors(n, primes1000)) - n
 
   def solve(n: Int): Int = {
     (2 to 10000).filter { n =>
-      val m = properDivisorSum(n)
-      m != n && n == properDivisorSum(m)
+      val m = properDivisorSum(n, primes1000)
+      m != n && n == properDivisorSum(m, primes1000)
     }.sum
   }
   def main(args: Array[String]): Unit = run(solve(10000))
