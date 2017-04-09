@@ -23,5 +23,5 @@ package object pe {
     case (d, 0) => sqr(pow(n, d))
     case (d, 1) => sqr(pow(n, d)) * n
   }
-
+  def sqrt(n: Int): Int = Math.sqrt(n).toInt
 }
