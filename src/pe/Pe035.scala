@@ -28,6 +28,5 @@ object Pe035 {
     bits = initialBits
     rotate(2, 10, 5)
   }
-
   def main(args: Array[String]): Unit = run(solve)
 }
