@@ -1,9 +1,14 @@
 import util.Utils
 
 package object pe {
+  import Integral._
   def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
   def run[T](f: => T) = Utils.run(f)
   def divMod(n: Long, m: Long): (Long, Long) = (n / m, n % m)
+  def divMod2[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {
+    import integral._
+    (n / m, n % m)
+  }
   def loadResource(name: String): String =
     io.Source.fromInputStream(getClass.getResourceAsStream(s"/resources/$name")).mkString
 
