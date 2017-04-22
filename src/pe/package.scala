@@ -1,11 +1,12 @@
+import cats.Applicative
 import util.Utils
 
+import scala.language.higherKinds
+
 package object pe {
-  import Integral._
   def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
   def run[T](f: => T) = Utils.run(f)
-  def divMod(n: Long, m: Long): (Long, Long) = (n / m, n % m)
-  def divMod2[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {
+  def divMod[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {
     import integral._
     (n / m, n % m)
   }
@@ -29,4 +30,11 @@ package object pe {
     case (d, 1) => sqr(pow(n, d)) * n
   }
   def sqrt(n: Int): Int = Math.sqrt(n).toInt
+  def on[F[_], S, T, U](a: (S, S))(f: S => F[T])(g: (T, T) => U)(implicit F: Applicative[F]): F[U] =
+    F.map2(f(a._1), f(a._2))(g)
+
+  abstract class BaseApp[A] {
+    def main: A
+    def main(args: Array[String]): Unit = run(main)
+  }
 }

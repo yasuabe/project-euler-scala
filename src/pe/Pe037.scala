@@ -10,7 +10,7 @@ object Pe037 {
   val bits = scala.collection.mutable.BitSet
 
   def isPrime(n: Int): Boolean = BigInteger.valueOf(n).isProbablePrime(5)
-  @tailrec def loop(n: Int, tens: Int): Boolean = divMod2(n, tens) match {
+  @tailrec def loop(n: Int, tens: Int): Boolean = divMod(n, tens) match {
     case (0, _)                                => true
     case (d, m) if !(isPrime(d) && isPrime(m)) => false
     case _                                     => loop(n, tens * 10)

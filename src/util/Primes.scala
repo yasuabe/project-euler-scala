@@ -59,6 +59,7 @@ object Primes {
   def primes(n: Int = 6): Stream[Long] = wheel(n) match {
     case (p #:: ps, ns) => sieve(ps.reverse.append(spin(p, ns)), PNil)
   }
+  def intPrimes = Primes.primes().map(_.toInt)
 
   def primeFactors(n: Long, primes: => Stream[Long] = Primes.primes()): List[(Long, Int)] = {
     def go(n: Long, ps: Stream[Long], result: List[(Long, Int)]): List[(Long, Int)] =
