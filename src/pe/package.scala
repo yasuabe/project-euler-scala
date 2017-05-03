@@ -37,4 +37,12 @@ package object pe {
     def main: A
     def main(args: Array[String]): Unit = run(main)
   }
+  implicit class TupleOps[A](val t: (A, A)) {
+    def map[B](f: A => B): (B, B) = (f(t._1), f(t._2))
+  }
+  def solution(a: Double, b: Double, c: Double)(implicit integral: Numeric[Double]): Option[(Double, Double)] = {
+    import integral._
+    val D = b*b - 4*a*c
+    if (D < 0) None else Some((identity[Double] _, negate _).map(sign => (-b + sign(D)) / (2*a)))
+  }
 }
