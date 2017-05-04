@@ -2,7 +2,9 @@ package pe
 
 import util.PairingHeap
 
-object Pe022 {
+object Pe022 extends BaseApp[Long] with UsesWords {
+  override val fileName: String = "p022_names.txt"
+
   def value(name: String): Long = name.toCharArray.map(_ - 'A' + 1).sum
 
   def solve(names: List[String]): Long = {
@@ -20,5 +22,5 @@ object Pe022 {
   def namesIn(text: String): List[String] =
     text.split(",").map(s => s.substring(1, s.length - 1)).toList
 
-  def main(args: Array[String]): Unit = run(solve(namesIn(loadResource("p022_names.txt"))))
+  def main: Long = solve(words)
 }

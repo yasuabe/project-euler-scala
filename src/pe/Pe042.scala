@@ -1,24 +1,20 @@
 package pe
 
-import java.math.BigInteger
+object Pe042 extends BaseApp[Int] with UsesWords {
+  override val fileName: String = "p042_words.txt"
 
-import scala.collection.immutable.::
+  def wordValueOf(s: String): Int = s.toCharArray.map(_ - 'A' + 1).sum
 
-object Pe041 extends BaseApp[Int] {
-  def maybePrime(ds: List[Int]): Option[Int] = {
-    val n = ds.foldRight(0)(_ + _ * 10)
-    if (Seq(1, 3, 7).contains(ds.head) && BigInteger.valueOf(n).isProbablePrime(5)) Some(n) else None
+  def prepareTriangleNumbers(max: Int): Set[Int] = Stream
+    .iterate((1, 1)) { case (n, t) => (n + 1, n * (n + 1) / 2) }
+    .map(_._2)
+    .takeWhile(_ <= max)
+    .toSet
+
+  def solve = {
+    val vs = words.map(wordValueOf)
+    val ts = prepareTriangleNumbers(vs.max)
+    vs.count(ts.contains)
   }
-  def solve(ns: List[Int]): Option[Int] = {
-    def go(as: List[Int], bs: List[Int], cs: List[Int]): Option[Int] = {
-      (bs, cs) match {
-        case (Nil, _)        => None
-        case (h :: Nil, Nil) => maybePrime(h :: as)
-        case (h :: t,   _)   =>
-          go(h :: as, cs.foldLeft(t)((acc, a) => a :: acc), Nil).orElse(go(as, t, h :: cs))
-      }
-    }
-    go(Nil, ns, Nil)
-  }
-  def main: Int = solve(List(7, 6, 5, 4, 3, 2, 1)).get
+  def main: Int = solve
 }

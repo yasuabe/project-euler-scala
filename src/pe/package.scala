@@ -37,6 +37,11 @@ package object pe {
     def main: A
     def main(args: Array[String]): Unit = run(main)
   }
+  trait UsesWords {
+    val fileName: String
+    def words: List[String] =
+      loadResource(fileName).tail.reverse.tail.reverse.split("""","""").toList
+  }
   implicit class TupleOps[A](val t: (A, A)) {
     def map[B](f: A => B): (B, B) = (f(t._1), f(t._2))
   }
