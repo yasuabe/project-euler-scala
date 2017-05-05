@@ -1,5 +1,5 @@
 import cats.Applicative
-import util.Utils
+import util.{Lists, Utils}
 
 import scala.language.higherKinds
 
@@ -12,7 +12,7 @@ package object pe {
   }
   def loadResource(name: String): String =
     io.Source.fromInputStream(getClass.getResourceAsStream(s"/resources/$name")).mkString
-
+  def isInt(n: Double): Boolean = n.toInt == n
   trait UseFraction {
     type Fraction = (Long, Long)
     def frac(n: Long, d: Long): Fraction = {
@@ -50,4 +50,5 @@ package object pe {
     val D = b*b - 4*a*c
     if (D < 0) None else Some((identity[Double] _, negate _).map(sign => (-b + sign(D)) / (2*a)))
   }
+  val lists = Lists
 }
