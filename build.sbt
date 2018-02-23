@@ -2,10 +2,9 @@ name := "project-euler-scala"
 
 version := "1.0"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
-  "org.typelevel" % "cats-core_2.11" % "0.9.0"
+  "com.chuusai" %% "shapeless" % "2.3.2",
+  "org.typelevel" % "cats-core_2.12" % "1.0.1"
 )
-// https://mvnrepository.com/artifact/com.chuusai/shapeless_2.11
-libraryDependencies += "com.chuusai" % "shapeless_2.11" % "2.3.2"
