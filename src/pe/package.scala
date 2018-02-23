@@ -45,10 +45,11 @@ package object pe {
   implicit class TupleOps[A](val t: (A, A)) {
     def map[B](f: A => B): (B, B) = (f(t._1), f(t._2))
   }
-  def solution(a: Double, b: Double, c: Double)(implicit integral: Numeric[Double]): Option[(Double, Double)] = {
-    import integral._
-    val D = b*b - 4*a*c
-    if (D < 0) None else Some((identity[Double] _, negate _).map(sign => (-b + sign(D)) / (2*a)))
-  }
+  def plusMinus(d: Double): (Double, Double) = (d, -d)
+  def solution(a: Double, b: Double, c: Double): Option[(Double, Double)] =
+    Some(b*b - 4*a*c)
+      .filter(_ >= 0)
+      .map(d => plusMinus(Math.sqrt(d)).map(D2 => (-b + D2) / (2*a)))
+
   val lists = Lists
 }
