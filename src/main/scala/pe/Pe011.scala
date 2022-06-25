@@ -54,13 +54,13 @@ object Pe011 {
   def offset(p: POSITION, o: (Int, Int)): Option[POSITION] = (p, o) match {
     case ((r, c), (or, oc)) => inRange(r + or, c + oc)
   }
-  implicit val optionProductMonoid = new Monoid[Option[Long]] {
+  given Monoid[Option[Long]] with
     override def empty: Option[Long] = Some(1L)
     override def combine(x: Option[Long], y: Option[Long]): Option[Long] = for {
       x1 <- x
       y1 <- y
     } yield x1 * y1
-  }
+
   def product(origin: POSITION, offsets: List[(Int, Int)]): Option[Long] =
     Foldable[List].fold(offsets.map {
       o => for {

@@ -1,36 +1,6 @@
-*.class
-*.log
-
-# sbt specific
-.cache
-.history
-.lib/
-dist/*
-target/
-lib_managed/
-src_managed/
-project/boot/
-project/plugins/project/
-
-# Scala-IDE specific
-.scala_dependencies
-.worksheet
-
-# idea
-.idea/
-.idea_modules/
-*.ipr
-*.iws
-*.iml
-.idea/workspace.xml
-
-# jenv
-.java-version
-
-# vagrant
-.vagrant
-Vagrantfile.local
-project/
-untitled/
-out/production/projecteuler/pe/
-out/production/projecteuler/util/
+target
+metals.sbt
+.metals
+.bloop
+.vscode
+.bsp/

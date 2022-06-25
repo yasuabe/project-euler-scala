@@ -11,7 +11,7 @@ object Pe047 extends BaseApp[Long] {
     def children: List[Elem]
   }
   case class Elem1(ps: List[Long], primes: Stream[Long]) extends Elem {
-    override lazy val product: Long = ps.product
+    override val product: Long = ps.product
     override def children: List[Elem] = {
       def loop(ps1: List[Long] = ps :+ primes.head, ps2: List[Long] = Nil): List[List[Long]] = ps1 match {
         case _ :: Nil => Nil

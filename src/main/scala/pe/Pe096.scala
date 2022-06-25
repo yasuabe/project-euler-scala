@@ -1,6 +1,6 @@
 package pe
 
-import util.Utils._
+import util.Utils.run
 import scala.collection.immutable.Queue
 
 case class Board(cs: Seq[Set[Int]], q: Queue[Int]) {
@@ -74,6 +74,7 @@ object Board {
   }
 }
 object Pe096 {
+  import scala.collection.immutable.StringOps
   def main(args: Array[String]) = run(() => solveAll)
   def solveAll = loadQuestions.map(solveOne(_)).sum
   def solveOne(initialNumbers: Seq[Int]) = Board(initialNumbers).proceed.get
@@ -87,7 +88,7 @@ object Pe096 {
   }
   def toIntSeq(lines: Seq[String]): Seq[Int] =
       lines.mkString("").toCharArray.map(_.-('0'))
-  def loadLines = io.Source
-    .fromInputStream(getClass.getResourceAsStream("/resources/sudoku.txt"))
-    .mkString.lines.toSeq
+
+  def loadLines: List[String] =
+     scala.io.Source.fromInputStream(getClass.getResourceAsStream("/resources/sudoku.txt")).mkString.linesIterator.toList
 }

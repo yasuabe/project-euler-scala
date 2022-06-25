@@ -11,7 +11,8 @@ package object pe {
     (n / m, n % m)
   }
   def loadResource(name: String): String =
-    io.Source.fromInputStream(getClass.getResourceAsStream(s"/resources/$name")).mkString
+    scala.io.Source.fromInputStream(getClass.getResourceAsStream(s"/resources/$name")).mkString
+
   def isInt(n: Double): Boolean = n.toInt == n
   trait UseFraction {
     type Fraction = (Long, Long)
@@ -43,13 +44,13 @@ package object pe {
       loadResource(fileName).tail.reverse.tail.reverse.split("""","""").toList
   }
   implicit class TupleOps[A](val t: (A, A)) {
-    def map[B](f: A => B): (B, B) = (f(t._1), f(t._2))
+    def mapT[B](f: A => B): (B, B) = (f(t._1), f(t._2))
   }
   def plusMinus(d: Double): (Double, Double) = (d, -d)
   def solution(a: Double, b: Double, c: Double): Option[(Double, Double)] =
     Some(b*b - 4*a*c)
       .filter(_ >= 0)
-      .map(d => plusMinus(Math.sqrt(d)).map(D2 => (-b + D2) / (2*a)))
+      .map(d => plusMinus(Math.sqrt(d)).mapT(D2 => (-b + D2) / (2*a)))
 
   val lists = Lists
 }
