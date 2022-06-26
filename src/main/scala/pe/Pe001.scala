@@ -1,12 +1,8 @@
 package pe
 
-import cats.Functor
 import cats.data.Reader
 import cats.syntax.apply.*
-import cats.instances.tuple
-import cats.implicits.{ toFunctorOps => _ }
 import cats.syntax.functor.*
-import cats.Functor.Ops
 import util.homogeneoustuple.{ Triple, given }
 
 object Pe001:
