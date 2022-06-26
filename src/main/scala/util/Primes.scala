@@ -22,6 +22,7 @@ object PQueue {
   }
 }
 
+// TODO: deprecated 
 object Primes {
   import PQueue._
 
