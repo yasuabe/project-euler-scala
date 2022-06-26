@@ -1,9 +1,9 @@
 package pe
 
-object Pe002 {
-  def solve(a: Int, b: Int, sum: Long): Long =
-    if (b >= 4000000) sum
-    else solve(b, a + b, sum + (if (b % 2 == 0) b else 0))
+object Pe002:
+  def solve(limit: Int) = LazyList
+    .iterate((1, 2, 0L))((a, b, s) => (b, a + b, s + (if b % 2 == 0 then b else 0)))
+    .dropWhile(x => x._2 < limit)
+    .head._3
 
-  def main(args: Array[String]) = run(solve(1, 2, 0))
-}
+  @main def main002 = run(solve(4_000_000))
