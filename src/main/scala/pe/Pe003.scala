@@ -1,7 +1,7 @@
 package pe
 
 import scala.annotation.tailrec
-import util.LazyPrimes._
+import util.LazyPrimes.*
 
 object Pe003:
   def solve(limit: Long): Long =
