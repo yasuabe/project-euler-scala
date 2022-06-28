@@ -1,9 +1,17 @@
 import cats.Applicative
 import util.{Lists, Utils}
+import mouse.boolean.*
 
 import scala.language.higherKinds
 
 package object pe {
+  extension (n: Int)
+    infix def gcd(b: Int): Int = (b == 0).fold(n, (b gcd (n % b)))
+    infix def divides(m: Int): Boolean = m % n == 0
+    infix def coprime(m: Int): Boolean = (n gcd m) == 1
+    infix def isEven: Boolean = n % 2 == 0
+    infix def isOdd: Boolean = !n.isEven
+
   def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
   def run[T](f: => T) = Utils.run(f)
   def divMod[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {

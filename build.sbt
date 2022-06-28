@@ -14,6 +14,7 @@ lazy val root = project
       "org.typelevel"     %% "cats-core"           % "2.6.1",
       "org.typelevel"     %% "algebra"             % "2.7.0",
       "org.typelevel"     %% "cats-laws"           % "2.7.0",
+      "org.typelevel"     %% "mouse"               % "1.1.0",
       "org.scalameta"     %% "munit"               % "0.7.29" % Test,
       "org.scalacheck"    %% "scalacheck"          % "1.16.0" % Test,
       "org.scalameta"     %% "munit-scalacheck"    % "0.7.29" % Test,

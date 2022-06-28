@@ -1,32 +1,32 @@
 package pe
 
-object Pe009 {
-  def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
-  def makeProduct(s: Int, m: Int, k: Int) = {
+import mouse.boolean.*
+import mouse.int.*
+import Math.sqrt
+
+object Pe009:
+  def product(s: Int, m: Int, k: Int) =
     val d = s / (2 * m * k)
     val n = k - m
-    val a = d * (m * m - n * n)
+    val a = d * (m.squared - n.squared)
     val b = 2 * d * m * n
-    val c = d * (m * m + n * n)
+    val c = d * (m.squared + n.squared)
     a * b * c
-  }
-  def solve(s :Int): Option[Int] = {
+
+  def solve(s :Int): Int =
+    def remove2s(n: Int): Int = n.isEven.fold(remove2s(n / 2), n)
     val s2 = s / 2
-    (2 until Math.ceil(Math.sqrt(s2)).toInt)
-      .toStream
-      .filter(m => s2 % m == 0)
+
+    (2 to sqrt(s2).toInt)
+      .toList
+      .filter(_ divides s2)
       .flatMap { m =>
-        val sm = removeTwos(s2 / m)
-        Stream
-          .from     (m + (if (m % 2 == 1) 2 else 1), 2)
+        val sm = remove2s(s2 / m)
+        LazyList
+          .from     (m + m.isOdd.fold(2, 1), 2)
           .takeWhile(k => k < 2 * m && k <= sm)
-          .find     (k => sm % k == 0 && gcd(k, m) == 1)
-          .map      (makeProduct(s, m, _))
-      }.headOption
-  }
-  def removeTwos(n: Int): Int = n % 2 match {
-    case 0 => removeTwos(n / 2)
-    case _ => n
-  }
-  def main(args: Array[String]) = run(solve(1000))
-}
+          .find     (k => (k divides sm) && (k coprime m))
+          .map      (product(s, m, _))
+      }.head
+
+  @main def main009 = run(solve(1000))
