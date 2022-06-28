@@ -1,11 +1,25 @@
 package pe
 
 import cats.Foldable
+import cats.data.{ NonEmptyList => Nel }
 import cats.kernel.Monoid
-import cats.implicits._
+import cats.syntax.apply.*
+import cats.syntax.option.*
+import cats.syntax.applicative.*
+import cats.syntax.functor.*
+import cats.syntax.flatMap.*
+import cats.syntax.foldable.*
+import cats.syntax.semigroup.*
+import util.homogeneoustuple.{ Pair, given }
+import mouse.boolean.*
 
-object Pe011 {
-  val MATRIX = Seq(
+object Pe011:
+  type Pos    = Pair[Int]
+  type Offset = Pair[Int]
+
+  val Size   = 20
+  val Range  = (0 until Size).toList
+  val Matrix = List(
     "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08",
     "49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00",
     "81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65",
@@ -26,54 +40,25 @@ object Pe011 {
     "20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16",
     "20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54",
     "01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48")
-    .flatMap{ s =>
-      s.split(' ')
-        .map(d2 => if (d2.startsWith("0")) d2.substring(1) else d2)
-        .map(_.toInt)
-    }
-  val SIZE = 20
-  val RANGE = 0 until SIZE
+    .map(_.split(' ').map(_.toInt))
 
-  type POSITION  = (Int, Int)
-  val DOWN       = List((0, 0), (1, 0),  (2, 0),  (3, 0))
-  val RIGHT      = List((0, 0), (0, 1),  (0, 2),  (0, 3))
-  val DOWN_RIGHT = List((0, 0), (1, 1),  (2, 2),  (3, 3))
-  val DOWN_LEFT  = List((0, 0), (1, -1), (2, -2), (3, -3))
-  val DIRECTIONS = List(DOWN, RIGHT, DOWN_RIGHT, DOWN_LEFT)
+  val Directions = List(
+    Nel.of((0, 0), (1,  0), (2,  0), (3,  0)), // DOWN
+    Nel.of((0, 0), (0,  1), (0,  2), (0,  3)), // RIGHT
+    Nel.of((0, 0), (1,  1), (2,  2), (3,  3)), // DOWN_RIGHT
+    Nel.of((0, 0), (1, -1), (2, -2), (3, -3))) // DOWN_LEFT
 
+  val inArea: Pos => Option[Pos] = 
+    _.fmap(n => (Range contains n).option(n)).mapN((_, _))
 
-  def inRange(n: Int):         Option[Int]      = if (RANGE.contains(n)) Some(n) else None
-  def inRange(p: POSITION):    Option[POSITION] = inRange(p._1, p._2)
-  def inRange(r: Int, c: Int): Option[POSITION] = for {
-    or <- inRange(r)
-    oc <- inRange(c)
-  } yield (oc, or)
-  def valueAt(p: POSITION): Option[Int] = inRange(p).map {
-    case (r, c) => MATRIX(r * SIZE + c)
-  }
-  def offset(p: POSITION, o: (Int, Int)): Option[POSITION] = (p, o) match {
-    case ((r, c), (or, oc)) => inRange(r + or, c + oc)
-  }
-  given Monoid[Option[Long]] with
-    override def empty: Option[Long] = Some(1L)
-    override def combine(x: Option[Long], y: Option[Long]): Option[Long] = for {
-      x1 <- x
-      y1 <- y
-    } yield x1 * y1
+  def product(p0: Pos): Nel[Offset] => Option[Long] =
+    val valueAt = (os: Offset) =>
+      inArea(p0 combine os).flatMap(inArea(_).map(Matrix(_)(_).toLong))
 
-  def product(origin: POSITION, offsets: List[(Int, Int)]): Option[Long] =
-    Foldable[List].fold(offsets.map {
-      o => for {
-        p <- offset(origin, o)
-        v <- valueAt(p)
-      } yield v.toLong
-    })
-  def maxAt(pos: POSITION) = DIRECTIONS.map(d => product(pos, d)).max
+    _.map(valueAt).reduceLeft((_, _).mapN(_ * _))
 
-  def solve: Option[Long] = (for {
-    c <- 0 until SIZE
-    r <- 0 until SIZE
-  } yield maxAt((r, c))).max
+  def maxAt(pos: Pos) = Directions.map(product(pos)).max
 
-  def main(args: Array[String]) = run(solve)
-}
+  def solve: Option[Long] = Range.pure[Pair].mapN(maxAt(_, _)).max
+
+  @main def main011 = run(solve)
