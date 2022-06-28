@@ -2,8 +2,7 @@ package pe
 
 import util.Primes._
 
-object Pe010 {
-  def solve(limit: Int) = primes().takeWhile(n => n < limit).sum
+object Pe010:
+  def solve(limit: Int): Long = primes().takeWhile(_ < limit).sum
 
-  def main(args: Array[String]) = run(solve(2000000))
-}
+  @main def main010 = run(solve(2000000))
