@@ -11,7 +11,7 @@ object Pe152 {
   def plus(f1: Frac, f2: Frac): Frac = {
     val n = f1._1 * f2._2 + f2._1 * f1._2
     val d = f1._2 * f2._2
-    val cd = gcd(n, d)
+    val cd = n.gcd(d)
     (n / cd, d / cd)
   }
   def patternsOf7k: List[Frac] = {

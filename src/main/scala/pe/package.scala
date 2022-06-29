@@ -12,7 +12,14 @@ package object pe {
     infix def isEven: Boolean = n % 2 == 0
     infix def isOdd: Boolean = !n.isEven
 
-  def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
+  extension (n: Long)
+    infix def gcd(b: Long): Long = (b == 0).fold(n, (b gcd (n % b)))
+    infix def divides(m: Long): Boolean = m % n == 0
+    infix def coprime(m: Long): Boolean = (n gcd m) == 1
+    infix def isEven: Boolean = n % 2 == 0
+    infix def isOdd: Boolean = !n.isEven
+
+  // def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
   def run[T](f: => T) = Utils.run(f)
   def divMod[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {
     import integral._
@@ -25,7 +32,7 @@ package object pe {
   trait UseFraction {
     type Fraction = (Long, Long)
     def frac(n: Long, d: Long): Fraction = {
-      val g = gcd(n, d)
+      val g = n.gcd(d)
       (n / g, d / g)
     }
     def multiply(f1: Fraction, f2: Fraction): Fraction =

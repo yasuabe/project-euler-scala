@@ -4,7 +4,7 @@ object Pe601 {
   def main(args: Array[String]) = run(solve(31))
 
   def solve(lim: Long): Long = {
-    def lcm(a: Long, b: Long) = a * b / gcd(a, b)
+    def lcm(a: Long, b: Long) = a * b / a.gcd(b)
     def go(i: Int, n0: Long, p0: Long, acc: Long): Long = {
       if (i > lim) acc else {
         val n = n0 - 1

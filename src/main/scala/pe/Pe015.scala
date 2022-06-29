@@ -3,7 +3,7 @@ package pe
 object Pe015 {
   type Fraction = (Long, Long)
   def frac(n: Long, d: Long): Fraction = {
-    val g = gcd(n, d)
+    val g = n.gcd(d)
     (n / g, d / g)
   }
   def multiply(f1: Fraction, f2: Fraction): Fraction =
