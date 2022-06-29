@@ -1,22 +1,18 @@
 package pe
 
 import scala.annotation.tailrec
+import mouse.boolean.*
 
-object Pe014 {
-  def next(n: Long): Long = n % 2 match {
-    case 0 => n / 2
-    case _ => 3 * n + 1
-  }
-  @tailrec
-  def terms(n: Long, len: Int): Int = n match {
-    case 1 => len
-    case _ => terms(next(n), len + 1)
-  }
-  def solve(limit: Int) = {
+object Pe014:
+  def next(n: Long): Long = n.isEven.fold(n / 2, 3 * n + 1)
+
+  @tailrec def terms(n: Long, len: Int): Int =
+    if n == 1 then len else terms(next(n), len + 1)
+
+  def solve(limit: Int) =
     (1 until limit).foldLeft((0, 0L)) { case ((m, acc), n) =>
       val t = terms(n, 1)
-      if (t > acc) (n, t) else (m, acc)
+      if t > acc then (n, t) else (m, acc)
     }
-  }
-  def main(args: Array[String]): Unit = run(solve(1000000))
-}
+
+  @main def main014: Unit = run(solve(1_000_000))
