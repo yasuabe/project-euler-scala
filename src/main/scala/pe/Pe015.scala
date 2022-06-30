@@ -1,17 +1,18 @@
 package pe
 
-object Pe015 {
-  type Fraction = (Long, Long)
-  def frac(n: Long, d: Long): Fraction = {
-    val g = n.gcd(d)
-    (n / g, d / g)
-  }
-  def multiply(f1: Fraction, f2: Fraction): Fraction =
-    frac(f1._1 * f2._1, f1._2 * f2._2)
+import cats.syntax.functor.*
+import util.homogeneoustuple.{ Pair, given }
 
-  def solve = {
-    val fh :: ft = (1L to 20L).map(d => frac(d + 20, d)).toList
-    ft.foldLeft(fh)((acc, e) => multiply(acc, e))
-  }
-  def main(args: Array[String]): Unit = run(solve._1)
-}
+object Pe015:
+  type Fraction = Pair[Long]
+
+  val reduce = (t: Fraction) => t match
+    case (n, d) => t.fmap(_ / (n gcd d))
+
+  val multiply: (Fraction, Fraction) => Fraction =
+    (f1, f2) => reduce(f1._1 * f2._1, f1._2 * f2._2)
+
+  def solve(limit: Int): Long =
+    (1L to limit).toList.fproduct(_ + limit).map(reduce).reduce(multiply)._2
+
+  @main def main015: Unit = run(solve(20))
