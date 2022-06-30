@@ -22,15 +22,14 @@ object Pe008:
               + "07198403850962455444362981230987879927244284909188"
               + "84580156166097919133875499200524063689912560717606"
               + "05886116467109405077541002256983155200055935729725"
-              + "71636269561882670428252483600823257530420752963450")
-              .toCharArray.map(_.toLong - '0').toList
+              + "71636269561882670428252483600823257530420752963450").toInts
 
   extension (win: List[Long]) def next(m: Long, n: Long) =
     val newWin = win :+ n
     (max(newWin.product, m), newWin.tail)
 
   def solve(width: Int): Long =
-    val (init, rest) = digits.splitAt(width - 1)
+    val (init, rest) = digits.map(_.toLong).splitAt(width - 1)
 
     rest.foldLeft(0L, init) { case ((m, w), d) => w.next(m, d) }._1
 

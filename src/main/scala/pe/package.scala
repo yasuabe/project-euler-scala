@@ -1,4 +1,6 @@
+import cats.Show
 import cats.Applicative
+import cats.syntax.show.*
 import util.{Lists, Utils}
 import mouse.boolean.*
 
@@ -19,6 +21,9 @@ package object pe {
     infix def isEven: Boolean = n % 2 == 0
     infix def isOdd: Boolean = !n.isEven
 
+  extension [T : Show] (s: T)
+    def toInts: List[Int] = s.show.map(_ - '0').toList
+
   // def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
   def run[T](f: => T) = Utils.run(f)
   def divMod[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {
@@ -26,7 +31,7 @@ package object pe {
     (n / m, n % m)
   }
   def loadResource(name: String): String =
-    scala.io.Source.fromInputStream(getClass.getResourceAsStream(s"/resources/$name")).mkString
+    scala.io.Source.fromInputStream(this.getClass.getResourceAsStream(s"/resources/$name")).mkString
 
   def isInt(n: Double): Boolean = n.toInt == n
   trait UseFraction {

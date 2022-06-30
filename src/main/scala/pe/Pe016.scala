@@ -1,7 +1,6 @@
 package pe
 
-object Pe016 {
-  def solve(p: Int) = BigInt(2).pow(p).toString.toCharArray.map(_.toInt - '0').sum
+object Pe016:
+  def solve(p: Int): Int = BigInt(2).pow(p).toInts.sum
 
-  def main(args: Array[String]): Unit = run(solve(1000))
-}
+  @main def main016: Unit = run(solve(1000))
