@@ -20,11 +20,11 @@ package object pe {
     infix def coprime(m: Long): Boolean = (n gcd m) == 1
     infix def isEven: Boolean = n % 2 == 0
     infix def isOdd: Boolean = !n.isEven
+    inline def sqr: Long = n * n
 
   extension [T : Show] (s: T)
     def toInts: List[Int] = s.show.map(_ - '0').toList
 
-  // def gcd(a: Long, b: Long): Long = if (b == 0) a else gcd(b, a % b)
   def run[T](f: => T) = Utils.run(f)
   def divMod[A](n: A, m: A)(implicit integral: Integral[A]): (A, A) = {
     import integral._
@@ -44,7 +44,6 @@ package object pe {
       frac(f1._1 * f2._1, f1._2 * f2._2)
   }
   def divMod2(n: Int): (Int, Int) = (n >>> 1, n & 1)
-  def sqr(n: Long): Long = n * n
   def pow(n: Long, p: Int): Long = divMod2(p) match {
     case (0, 0) => 1
     case (d, 0) => sqr(pow(n, d))
